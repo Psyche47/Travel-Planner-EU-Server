@@ -28,6 +28,23 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
+
+    // POST API
+    app.post("/addServices", async (req, res) => {
+      const service = req.body;
+      const result = await serviceCollection.insertOne(service);
+      res.json(result);
+    });
+
+    // SINGLE SERVICE
+    app.get("/singleService/:id", async (req, res) => {
+      console.log(req.params.id);
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const service = await serviceCollection.findOne(query);
+      console.log(service);
+      res.json(service);
+    });
   } finally {
     //await client.close();
   }
