@@ -21,6 +21,7 @@ async function run() {
     await client.connect();
     const database = client.db("travel_planner_eu");
     const serviceCollection = database.collection("allServices");
+    const bookingCollection = database.collection("bookings");
 
     // GET API
     app.get("/allServices", async (req, res) => {
@@ -42,6 +43,14 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const service = await serviceCollection.findOne(query);
       res.json(service);
+    });
+
+    // CONFIRM BOOKING
+    app.post("/confirmedBooking", async (req, res) => {
+      const booking = req.body;
+      const result = await bookingCollection.insertOne(booking);
+      console.log(result);
+      res.json(result);
     });
   } finally {
     //await client.close();
