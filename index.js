@@ -38,11 +38,9 @@ async function run() {
 
     // SINGLE SERVICE
     app.get("/singleService/:id", async (req, res) => {
-      console.log(req.params.id);
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const service = await serviceCollection.findOne(query);
-      console.log(service);
       res.json(service);
     });
   } finally {
