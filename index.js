@@ -52,6 +52,14 @@ async function run() {
       console.log(result);
       res.json(result);
     });
+
+    // MY BOOKINGS
+    app.get("/myBookings/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result);
+    });
   } finally {
     //await client.close();
   }
