@@ -60,6 +60,14 @@ async function run() {
       const result = await bookingCollection.find(query).toArray();
       res.send(result);
     });
+
+    // DELETE BOOKINGS
+    app.delete("/deleteBooking/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
+      res.json(result);
+    });
   } finally {
     //await client.close();
   }
