@@ -61,6 +61,13 @@ async function run() {
       res.send(result);
     });
 
+    // GET ALL BOOKINGS
+    app.get("/myBookings", async (req, res) => {
+      const cursor = bookingCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // DELETE BOOKINGS
     app.delete("/deleteBooking/:id", async (req, res) => {
       const id = req.params.id;
@@ -75,6 +82,16 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const result = await serviceCollection.deleteOne(query);
       res.json(result);
+    });
+
+    // UPDATE STATUS
+    app.put("/updateBookingStatus/:id", (req, res) => {
+      const id = req.params.id;
+      const updatedStatus = req.body.status;
+      const filter = { _id: ObjectId(id) };
+      bookingCollection
+        .updateOne(filter, { $set: { status: updatedStatus } })
+        .then((result) => res.send(result));
     });
   } finally {
     //await client.close();
