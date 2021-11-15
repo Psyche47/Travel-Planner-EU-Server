@@ -49,7 +49,6 @@ async function run() {
     app.post("/confirmedBooking", async (req, res) => {
       const booking = req.body;
       const result = await bookingCollection.insertOne(booking);
-      console.log(result);
       res.json(result);
     });
 
